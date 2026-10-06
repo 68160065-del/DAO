@@ -7,39 +7,28 @@ package com.example.moogata.jdbc.basic;
 /**
  *
  * @author USER
- */import java.sql.Connection;
+ */
+
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-public class SelectDatabaseFinally {
+
+public class DeleteDatabaseFinally {
     public static void main(String[] args) {
         String url = "jdbc:sqlite:moogata-basic.db";
-        String sql = "SELECT category_id, category_name "
-                    +"FROM menu_category "
-                    +"WHERE category_name = ? "
-                    +"ORDER BY category_id";
+        String sql = "DELETE FROM menu_category WHERE category_name = ?";
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         try {
             conn = DriverManager.getConnection(url);
             stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                System.out.println(rs.getInt("category_id") + " | "
-                        + rs.getString("category_name"));
-            }
+            stmt.setString(1, "สุกี้แห้งพิเศษ");
+            int affected = stmt.executeUpdate();
+            System.out.println("Deleted " + affected + " row(s)");
         } catch (SQLException ex) {
-            System.err.println("Select failed: " + ex.getMessage());
+            System.err.println("Deleted failed: " + ex.getMessage());
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException closeEx) {
-                    System.err.println("Close rs failed: " + closeEx.getMessage());
-                }
-            }
             if (stmt != null) {
                 try {
                     stmt.close();

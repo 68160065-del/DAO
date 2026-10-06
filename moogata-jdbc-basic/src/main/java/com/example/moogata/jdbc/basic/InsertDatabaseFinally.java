@@ -22,7 +22,7 @@ public class InsertDatabaseFinally {
         try {
             conn = DriverManager.getConnection(url);
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "สุกี้แห้ง");
+            stmt.setString(1, "น้ำจิ้ม");
             int affected = stmt.executeUpdate();
             System.out.println("Inserted " + affected + " row(s)");
         } catch (SQLException ex) {
